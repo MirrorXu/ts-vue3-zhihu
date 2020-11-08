@@ -1,18 +1,29 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+  <div class="container">
+    <h1>home view</h1>
+    <column-list :list="list" />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
-
+import { defineComponent } from "vue";
+import logoImg from "@/assets/logo.png";
+import ColumnList, { ColumnProps } from "@/components/ColumnList.vue"; // @ is an alias to /src
+const testData: ColumnProps[] = new Array(10).fill({
+  id: 1,
+  title: "test1的专栏",
+  description: "test1的专栏-description",
+  avatar: logoImg,
+});
 export default defineComponent({
-  name: 'Home',
+  name: "Home",
   components: {
-    HelloWorld,
+    ColumnList,
+  },
+  setup() {
+    return {
+      list: testData,
+    };
   },
 });
 </script>
