@@ -1,5 +1,5 @@
 <template>
-  <div class="dropdown">
+  <div class="dropdown" ref="dropdownRef">
     <a
       href="#"
       class="btn btn-outline-light my-2 dropdown-toggle"
@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, onMounted, onUnmounted } from "vue";
 export default defineComponent({
   name: "Dropdown",
   props: {
@@ -29,9 +29,30 @@ export default defineComponent({
     const toggleOpen = () => {
       isOpen.value = !isOpen.value;
     };
+    const dropdownRef = ref<null | HTMLElement>(null);
+
+    const handler = (e: MouseEvent) => {
+      debugger;
+      if (dropdownRef.value) {
+        console.log(dropdownRef.value);
+        if (
+          !dropdownRef.value.contains(e.target as HTMLElement) &&
+          isOpen.value
+        ) {
+          isOpen.value = false;
+        }
+      }
+    };
+    onMounted(() => {
+      document.addEventListener("click", handler);
+    });
+    onUnmounted(() => {
+      document.removeEventListener("click", handler);
+    });
     return {
       isOpen,
       toggleOpen,
+      dropdownRef,
     };
   },
 });
